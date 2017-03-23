@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,31 @@ namespace SmartShop
                 return (true, temp.IsAdmin ? 1 : 0, temp.Name);
             else
                 return (false, -1, "");
+        }
+        internal class PurchaseGoods
+        {
+            public PurchaseGoods(DAL.GoodsInfo goodsInfo)
+            {
+                GoodsInfo = goodsInfo;
+            }
+            override public string ToString()
+            {
+                return RFIDlist.Count + "个 " + GoodsInfo.Name;
+            }
+            public DAL.GoodsInfo GoodsInfo;
+            public ArrayList RFIDlist = new ArrayList();
+        }
+
+        internal static void Purchase(ArrayList purchaseGoods)
+        {
+            foreach(BLL.PurchaseGoods goods in purchaseGoods)
+            {
+                foreach(int rfid in goods.RFIDlist)
+                {
+                    DAL.Stock_Add(rfid, goods.GoodsInfo.GoodsID);
+                }
+            }
+            //todo：订单记录
         }
     }
 }

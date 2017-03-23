@@ -232,5 +232,160 @@ namespace SmartShop
             }
             return temp;
         }
+
+        internal class GoodsInfo
+        {
+            public GoodsInfo(int goodsID, string name, int providerID, double price)
+            {
+                ProviderID = providerID;
+                Name = name;
+                Price = price;
+                GoodsID = goodsID;
+            }
+
+            public GoodsInfo()
+            {
+            }
+
+            override public string ToString()
+            {
+                return GoodsID + " " + Name;
+            }
+            public int ProviderID;
+            public string Name;
+            public double Price;
+            public int GoodsID;
+        }
+
+        internal static ArrayList Goods_GetAll()
+        {
+            ArrayList AllGoods = new ArrayList();
+            string sql = "SELECT * FROM Goods;";
+
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var temp = new GoodsInfo(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(3), reader.GetDouble(2));
+                            AllGoods.Add(temp);
+                        }
+                    }
+                }
+            }
+            return AllGoods;
+        }
+
+        internal static ArrayList Goods_Get(int ID, string Name)
+        {
+            ArrayList AllGoods = new ArrayList();
+            string sql;
+            if (ID < 0)
+                sql = "SELECT * FROM Goods Where Name LIKE '%{Name}%';".Replace("{Name}", Name);
+            else
+                sql = "SELECT * FROM Goods Where ID = '%{ID}%';".Replace("{ID}", ID.ToString());
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var temp = new GoodsInfo(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(3), reader.GetDouble(2));
+                            AllGoods.Add(temp);
+                        }
+                    }
+                }
+            }
+            return AllGoods;
+        }
+
+        internal static int Goods_Delate(int GoodsID)
+        {
+            string sql = "DELETE FROM Goods WHERE ID = '{GoodsID}';".Replace("{GoodsID}", GoodsID.ToString());
+            int temp;
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    temp = cmd.ExecuteNonQuery();
+                }
+            }
+            return temp;
+        }
+
+        internal static int Goods_Add(GoodsInfo goodsInfo)
+        {
+            string sql = "INSERT INTO Goods (Name,Price,ProviderID) VALUES ('{Name}','{Price}','{ProviderID}');";
+            sql = sql.Replace("{Name}", goodsInfo.Name).Replace("{Price}", goodsInfo.Price.ToString()).Replace("{ProviderID}", goodsInfo.ProviderID.ToString());
+            int temp;
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    temp = cmd.ExecuteNonQuery();
+                }
+            }
+            return temp;
+        }
+
+        internal static int Goods_Edit(GoodsInfo goodsInfo)
+        {
+            string sql = "UPDATE Goods SET Price = '{Price}',Name = '{Name}',ProviderID = '{ProviderID}' WHERE ID = '{GoodsID}';";
+            sql = sql.Replace("{Price}", goodsInfo.Price.ToString()).Replace("{Name}", goodsInfo.Name).Replace("{ProviderID}", goodsInfo.ProviderID.ToString()).Replace("{GoodsID}", goodsInfo.GoodsID.ToString());
+            int temp;
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    temp = cmd.ExecuteNonQuery();
+                }
+            }
+            return temp;
+        }
+
+        internal static int Stock_Get(int RFID)
+        {
+            string sql = "SELECT * FROM Stock WHERE RFID = '{RFID}';".Replace("{RFID}", RFID.ToString());
+
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                            return -1;
+                        return reader.GetInt32(1);
+                    }
+                }
+            }
+        }
+
+        internal static int Stock_Add(int RFID, int goodsID)
+        {
+            string sql = "INSERT INTO Stock (RFID,goodsID) VALUES ('{RFID}','{goodsID}');";
+            sql = sql.Replace("{RFID}", RFID.ToString()).Replace("{goodsID}", goodsID.ToString());
+            int temp;
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    temp = cmd.ExecuteNonQuery();
+                }
+            }
+            return temp;
+        }
     }
 }
