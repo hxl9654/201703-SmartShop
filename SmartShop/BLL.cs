@@ -33,14 +33,20 @@ namespace SmartShop
 
         internal static void Purchase(ArrayList purchaseGoods)
         {
-            foreach(BLL.PurchaseGoods goods in purchaseGoods)
+            string text = "";
+            int count1 = 0, count2 = 0;
+            foreach (BLL.PurchaseGoods goods in purchaseGoods)
             {
-                foreach(int rfid in goods.RFIDlist)
+                foreach (int rfid in goods.RFIDlist)
                 {
                     DAL.Stock_Add(rfid, goods.GoodsInfo.GoodsID);
                 }
+                count1++;
+                count2 += goods.RFIDlist.Count;
+                text += "品名：" + goods.GoodsInfo.Name + "，数量：" + goods.RFIDlist.Count + "。" + Environment.NewLine;
             }
-            //todo：订单记录
+            text = "本次进货品种数：" + count1 + "，总件数：" + count2 + Environment.NewLine + "。详情如下：" + Environment.NewLine + text;
+            DAL.PurchaseHistory_Add(text);
         }
     }
 }

@@ -172,6 +172,10 @@ namespace SmartShop
                 this.AcceptButton = buttonGoods_OK;
                 comboBoxGoods_Provider_Refresh();
             }
+            else if (tabControlMain.SelectedTab != null && tabControlMain.SelectedTab.Text.Equals("进货历史"))
+            {
+                listBoxPurchaseStatistics_Refresh();
+            }
         }
 
         private void listBoxWorkers_Refresh()
@@ -614,7 +618,7 @@ namespace SmartShop
                     PurchaseGoods.Add(goods);
                 }
             }
-            if(PurchaseGoods.Count>0)
+            if (PurchaseGoods.Count > 0)
             {
                 BLL.Purchase(PurchaseGoods);
             }
@@ -751,6 +755,24 @@ namespace SmartShop
             listBoxPurchase_GoodsList.Items.Insert(0, temp);
             listBoxPurchase_GoodsList.SelectedIndex = 0;
             textBoxPurchase_RFID.Focus();
+        }
+
+        private void listBoxPurchaseStatistics_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxPurchaseStatistics.SelectedIndex != -1)
+            {
+                textBoxPurchaseStatistics.Text = "进货时间：" + ((DAL.PurchaseHistory)listBoxPurchaseStatistics.SelectedItem).Timestamp + Environment.NewLine + ((DAL.PurchaseHistory)listBoxPurchaseStatistics.SelectedItem).Text;
+            }
+        }
+
+        private void listBoxPurchaseStatistics_Refresh()
+        {
+            listBoxPurchaseStatistics.Items.Clear();
+            var AllHistory = DAL.PurchaseHistory_GetAll();
+            foreach (DAL.PurchaseHistory history in AllHistory)
+            {
+                listBoxPurchaseStatistics.Items.Add(history);
+            }
         }
     }
 }

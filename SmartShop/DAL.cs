@@ -387,5 +387,59 @@ namespace SmartShop
             }
             return temp;
         }
+
+        internal class PurchaseHistory
+        {
+            public PurchaseHistory(string timestamp, string text)
+            {
+                Timestamp = timestamp;
+                Text = text;
+            }
+            override public string ToString()
+            {
+                return Timestamp;
+            }
+            public string Timestamp;
+            public string Text;
+        }
+
+        internal static int PurchaseHistory_Add(string text)
+        {
+            string sql = "INSERT INTO PurchaseHistory (text) VALUES ('{text}');";
+            sql = sql.Replace("{text}", text);
+            int temp;
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    temp = cmd.ExecuteNonQuery();
+                }
+            }
+            return temp;
+        }
+
+        internal static ArrayList PurchaseHistory_GetAll()
+        {
+            ArrayList purchaseHistory = new ArrayList();
+            string sql = "SELECT * FROM PurchaseHistory;";
+
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var temp = new PurchaseHistory(reader.GetString(0), reader.GetString(1));
+                            purchaseHistory.Add(temp);
+                        }
+                    }
+                }
+            }
+            return purchaseHistory;
+        }
     }
 }

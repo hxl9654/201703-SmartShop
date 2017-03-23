@@ -102,7 +102,7 @@
             this.tabPageSell = new System.Windows.Forms.TabPage();
             this.tabPageInventory = new System.Windows.Forms.TabPage();
             this.tabPagePurchaseStatistics = new System.Windows.Forms.TabPage();
-            this.tabPageSellStatistics = new System.Windows.Forms.TabPage();
+            this.tabPageSellHistory = new System.Windows.Forms.TabPage();
             this.groupBoxPurchase_Detail = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.buttonPurchase_Add = new System.Windows.Forms.Button();
@@ -123,6 +123,10 @@
             this.textBoxPurchase_AddGoodsFindByRFID = new System.Windows.Forms.TextBox();
             this.buttonPurchase_AddGoodsFindByRFID = new System.Windows.Forms.Button();
             this.buttonPurchase_AddGoodsReset = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.listBoxPurchaseStatistics = new System.Windows.Forms.ListBox();
+            this.textBoxPurchaseStatistics = new System.Windows.Forms.TextBox();
             this.tabControlMain.SuspendLayout();
             this.tabPageLogin.SuspendLayout();
             this.tabPageProviderManage.SuspendLayout();
@@ -135,9 +139,12 @@
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.tabPagePurchase.SuspendLayout();
+            this.tabPagePurchaseStatistics.SuspendLayout();
             this.groupBoxPurchase_Detail.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBoxPurchase_Add.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -150,7 +157,7 @@
             this.tabControlMain.Controls.Add(this.tabPageSell);
             this.tabControlMain.Controls.Add(this.tabPageInventory);
             this.tabControlMain.Controls.Add(this.tabPagePurchaseStatistics);
-            this.tabControlMain.Controls.Add(this.tabPageSellStatistics);
+            this.tabControlMain.Controls.Add(this.tabPageSellHistory);
             this.tabControlMain.Location = new System.Drawing.Point(12, 0);
             this.tabControlMain.Multiline = true;
             this.tabControlMain.Name = "tabControlMain";
@@ -948,22 +955,24 @@
             // tabPagePurchaseStatistics
             // 
             this.tabPagePurchaseStatistics.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPagePurchaseStatistics.Controls.Add(this.groupBox7);
+            this.tabPagePurchaseStatistics.Controls.Add(this.groupBox9);
             this.tabPagePurchaseStatistics.Location = new System.Drawing.Point(4, 22);
             this.tabPagePurchaseStatistics.Name = "tabPagePurchaseStatistics";
             this.tabPagePurchaseStatistics.Padding = new System.Windows.Forms.Padding(3);
             this.tabPagePurchaseStatistics.Size = new System.Drawing.Size(587, 403);
             this.tabPagePurchaseStatistics.TabIndex = 6;
-            this.tabPagePurchaseStatistics.Text = "进货统计";
+            this.tabPagePurchaseStatistics.Text = "进货历史";
             // 
-            // tabPageSellStatistics
+            // tabPageSellHistory
             // 
-            this.tabPageSellStatistics.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageSellStatistics.Location = new System.Drawing.Point(4, 22);
-            this.tabPageSellStatistics.Name = "tabPageSellStatistics";
-            this.tabPageSellStatistics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSellStatistics.Size = new System.Drawing.Size(587, 403);
-            this.tabPageSellStatistics.TabIndex = 7;
-            this.tabPageSellStatistics.Text = "销售统计";
+            this.tabPageSellHistory.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageSellHistory.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSellHistory.Name = "tabPageSellHistory";
+            this.tabPageSellHistory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSellHistory.Size = new System.Drawing.Size(587, 403);
+            this.tabPageSellHistory.TabIndex = 7;
+            this.tabPageSellHistory.Text = "销售历史";
             // 
             // groupBoxPurchase_Detail
             // 
@@ -1173,6 +1182,45 @@
             this.buttonPurchase_AddGoodsReset.UseVisualStyleBackColor = true;
             this.buttonPurchase_AddGoodsReset.Click += new System.EventHandler(this.buttonPurchase_AddGoodsReset_Click);
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.textBoxPurchaseStatistics);
+            this.groupBox7.Location = new System.Drawing.Point(270, 77);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(219, 249);
+            this.groupBox7.TabIndex = 26;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "详细信息";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.listBoxPurchaseStatistics);
+            this.groupBox9.Location = new System.Drawing.Point(98, 77);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(166, 249);
+            this.groupBox9.TabIndex = 25;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "进货时间";
+            // 
+            // listBoxPurchaseStatistics
+            // 
+            this.listBoxPurchaseStatistics.FormattingEnabled = true;
+            this.listBoxPurchaseStatistics.ItemHeight = 12;
+            this.listBoxPurchaseStatistics.Location = new System.Drawing.Point(6, 20);
+            this.listBoxPurchaseStatistics.Name = "listBoxPurchaseStatistics";
+            this.listBoxPurchaseStatistics.Size = new System.Drawing.Size(154, 220);
+            this.listBoxPurchaseStatistics.TabIndex = 0;
+            this.listBoxPurchaseStatistics.SelectedIndexChanged += new System.EventHandler(this.listBoxPurchaseStatistics_SelectedIndexChanged);
+            // 
+            // textBoxPurchaseStatistics
+            // 
+            this.textBoxPurchaseStatistics.Location = new System.Drawing.Point(6, 20);
+            this.textBoxPurchaseStatistics.Multiline = true;
+            this.textBoxPurchaseStatistics.Name = "textBoxPurchaseStatistics";
+            this.textBoxPurchaseStatistics.ReadOnly = true;
+            this.textBoxPurchaseStatistics.Size = new System.Drawing.Size(207, 220);
+            this.textBoxPurchaseStatistics.TabIndex = 0;
+            // 
             // FormMain
             // 
             this.AcceptButton = this.buttonLogin_Login;
@@ -1203,11 +1251,15 @@
             this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.tabPagePurchase.ResumeLayout(false);
+            this.tabPagePurchaseStatistics.ResumeLayout(false);
             this.groupBoxPurchase_Detail.ResumeLayout(false);
             this.groupBoxPurchase_Detail.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBoxPurchase_Add.ResumeLayout(false);
             this.groupBoxPurchase_Add.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1223,7 +1275,7 @@
         private System.Windows.Forms.TabPage tabPageInventory;
         private System.Windows.Forms.TabPage tabPagePurchaseStatistics;
         private System.Windows.Forms.TabPage tabPageLogin;
-        private System.Windows.Forms.TabPage tabPageSellStatistics;
+        private System.Windows.Forms.TabPage tabPageSellHistory;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -1309,6 +1361,10 @@
         private System.Windows.Forms.Button buttonPurchase_AddGoodsFindByName;
         private System.Windows.Forms.Button buttonPurchase_AddGoodsFindByRFID;
         private System.Windows.Forms.Button buttonPurchase_AddGoodsReset;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.TextBox textBoxPurchaseStatistics;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.ListBox listBoxPurchaseStatistics;
     }
 }
 
