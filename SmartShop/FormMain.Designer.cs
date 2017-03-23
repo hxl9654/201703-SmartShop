@@ -69,11 +69,30 @@
             this.tabPageInventory = new System.Windows.Forms.TabPage();
             this.tabPagePurchaseStatistics = new System.Windows.Forms.TabPage();
             this.tabPageSellStatistics = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textBoxProvider_Name = new System.Windows.Forms.TextBox();
+            this.buttonProvider_OK = new System.Windows.Forms.Button();
+            this.buttonProvider_Cancel = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBoxProvider_Address = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBoxProvider_Phone = new System.Windows.Forms.TextBox();
+            this.textBoxProvider_ID = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.buttonProvider_Add = new System.Windows.Forms.Button();
+            this.listBoxProvider = new System.Windows.Forms.ListBox();
+            this.buttonProvider_Delete = new System.Windows.Forms.Button();
+            this.buttonProvider_Edit = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPageLogin.SuspendLayout();
+            this.tabPageProviderManage.SuspendLayout();
             this.tabPageWorkerManage.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -88,6 +107,7 @@
             this.tabControlMain.Controls.Add(this.tabPagePurchaseStatistics);
             this.tabControlMain.Controls.Add(this.tabPageSellStatistics);
             this.tabControlMain.Location = new System.Drawing.Point(12, 0);
+            this.tabControlMain.Multiline = true;
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(595, 429);
@@ -193,6 +213,8 @@
             // tabPageProviderManage
             // 
             this.tabPageProviderManage.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageProviderManage.Controls.Add(this.groupBox3);
+            this.tabPageProviderManage.Controls.Add(this.groupBox4);
             this.tabPageProviderManage.Location = new System.Drawing.Point(4, 22);
             this.tabPageProviderManage.Name = "tabPageProviderManage";
             this.tabPageProviderManage.Padding = new System.Windows.Forms.Padding(3);
@@ -528,6 +550,178 @@
             this.tabPageSellStatistics.TabIndex = 7;
             this.tabPageSellStatistics.Text = "销售统计";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.textBoxProvider_Name);
+            this.groupBox3.Controls.Add(this.buttonProvider_OK);
+            this.groupBox3.Controls.Add(this.buttonProvider_Cancel);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.label12);
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Controls.Add(this.textBoxProvider_Address);
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Controls.Add(this.textBoxProvider_Phone);
+            this.groupBox3.Controls.Add(this.textBoxProvider_ID);
+            this.groupBox3.Location = new System.Drawing.Point(311, 77);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(178, 249);
+            this.groupBox3.TabIndex = 24;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "详细信息";
+            // 
+            // textBoxProvider_Name
+            // 
+            this.textBoxProvider_Name.Enabled = false;
+            this.textBoxProvider_Name.Location = new System.Drawing.Point(60, 16);
+            this.textBoxProvider_Name.MaxLength = 10;
+            this.textBoxProvider_Name.Multiline = true;
+            this.textBoxProvider_Name.Name = "textBoxProvider_Name";
+            this.textBoxProvider_Name.Size = new System.Drawing.Size(112, 60);
+            this.textBoxProvider_Name.TabIndex = 13;
+            // 
+            // buttonProvider_OK
+            // 
+            this.buttonProvider_OK.Enabled = false;
+            this.buttonProvider_OK.Location = new System.Drawing.Point(10, 210);
+            this.buttonProvider_OK.Name = "buttonProvider_OK";
+            this.buttonProvider_OK.Size = new System.Drawing.Size(78, 30);
+            this.buttonProvider_OK.TabIndex = 4;
+            this.buttonProvider_OK.Text = "确定";
+            this.buttonProvider_OK.UseVisualStyleBackColor = true;
+            this.buttonProvider_OK.Click += new System.EventHandler(this.buttonProvider_OK_Click);
+            // 
+            // buttonProvider_Cancel
+            // 
+            this.buttonProvider_Cancel.Enabled = false;
+            this.buttonProvider_Cancel.Location = new System.Drawing.Point(94, 210);
+            this.buttonProvider_Cancel.Name = "buttonProvider_Cancel";
+            this.buttonProvider_Cancel.Size = new System.Drawing.Size(78, 30);
+            this.buttonProvider_Cancel.TabIndex = 5;
+            this.buttonProvider_Cancel.Text = "取消";
+            this.buttonProvider_Cancel.UseVisualStyleBackColor = true;
+            this.buttonProvider_Cancel.Click += new System.EventHandler(this.buttonProvider_Cancel_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("宋体", 15F);
+            this.label4.Location = new System.Drawing.Point(6, 17);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(49, 20);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "名称";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("宋体", 15F);
+            this.label12.Location = new System.Drawing.Point(6, 83);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(49, 20);
+            this.label12.TabIndex = 7;
+            this.label12.Text = "编号";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("宋体", 15F);
+            this.label13.Location = new System.Drawing.Point(6, 110);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(49, 20);
+            this.label13.TabIndex = 8;
+            this.label13.Text = "电话";
+            // 
+            // textBoxProvider_Address
+            // 
+            this.textBoxProvider_Address.Enabled = false;
+            this.textBoxProvider_Address.Location = new System.Drawing.Point(60, 136);
+            this.textBoxProvider_Address.MaxLength = 16;
+            this.textBoxProvider_Address.Multiline = true;
+            this.textBoxProvider_Address.Name = "textBoxProvider_Address";
+            this.textBoxProvider_Address.Size = new System.Drawing.Size(112, 68);
+            this.textBoxProvider_Address.TabIndex = 16;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("宋体", 15F);
+            this.label14.Location = new System.Drawing.Point(6, 136);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(49, 20);
+            this.label14.TabIndex = 9;
+            this.label14.Text = "地址";
+            // 
+            // textBoxProvider_Phone
+            // 
+            this.textBoxProvider_Phone.Enabled = false;
+            this.textBoxProvider_Phone.Location = new System.Drawing.Point(60, 109);
+            this.textBoxProvider_Phone.MaxLength = 16;
+            this.textBoxProvider_Phone.Name = "textBoxProvider_Phone";
+            this.textBoxProvider_Phone.Size = new System.Drawing.Size(112, 21);
+            this.textBoxProvider_Phone.TabIndex = 15;
+            // 
+            // textBoxProvider_ID
+            // 
+            this.textBoxProvider_ID.Enabled = false;
+            this.textBoxProvider_ID.Location = new System.Drawing.Point(60, 82);
+            this.textBoxProvider_ID.MaxLength = 16;
+            this.textBoxProvider_ID.Name = "textBoxProvider_ID";
+            this.textBoxProvider_ID.Size = new System.Drawing.Size(112, 21);
+            this.textBoxProvider_ID.TabIndex = 14;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.buttonProvider_Add);
+            this.groupBox4.Controls.Add(this.listBoxProvider);
+            this.groupBox4.Controls.Add(this.buttonProvider_Delete);
+            this.groupBox4.Controls.Add(this.buttonProvider_Edit);
+            this.groupBox4.Location = new System.Drawing.Point(98, 77);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(207, 249);
+            this.groupBox4.TabIndex = 23;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "供货商列表";
+            // 
+            // buttonProvider_Add
+            // 
+            this.buttonProvider_Add.Location = new System.Drawing.Point(158, 95);
+            this.buttonProvider_Add.Name = "buttonProvider_Add";
+            this.buttonProvider_Add.Size = new System.Drawing.Size(42, 69);
+            this.buttonProvider_Add.TabIndex = 4;
+            this.buttonProvider_Add.Text = "添加";
+            this.buttonProvider_Add.UseVisualStyleBackColor = true;
+            this.buttonProvider_Add.Click += new System.EventHandler(this.buttonProvider_Add_Click);
+            // 
+            // listBoxProvider
+            // 
+            this.listBoxProvider.FormattingEnabled = true;
+            this.listBoxProvider.ItemHeight = 12;
+            this.listBoxProvider.Location = new System.Drawing.Point(6, 20);
+            this.listBoxProvider.Name = "listBoxProvider";
+            this.listBoxProvider.Size = new System.Drawing.Size(146, 220);
+            this.listBoxProvider.TabIndex = 0;
+            this.listBoxProvider.SelectedIndexChanged += new System.EventHandler(this.listBoxProvider_SelectedIndexChanged);
+            // 
+            // buttonProvider_Delete
+            // 
+            this.buttonProvider_Delete.Location = new System.Drawing.Point(158, 20);
+            this.buttonProvider_Delete.Name = "buttonProvider_Delete";
+            this.buttonProvider_Delete.Size = new System.Drawing.Size(42, 69);
+            this.buttonProvider_Delete.TabIndex = 2;
+            this.buttonProvider_Delete.Text = "删除";
+            this.buttonProvider_Delete.UseVisualStyleBackColor = true;
+            this.buttonProvider_Delete.Click += new System.EventHandler(this.buttonProvider_Delete_Click);
+            // 
+            // buttonProvider_Edit
+            // 
+            this.buttonProvider_Edit.Location = new System.Drawing.Point(158, 171);
+            this.buttonProvider_Edit.Name = "buttonProvider_Edit";
+            this.buttonProvider_Edit.Size = new System.Drawing.Size(42, 69);
+            this.buttonProvider_Edit.TabIndex = 3;
+            this.buttonProvider_Edit.Text = "修改";
+            this.buttonProvider_Edit.UseVisualStyleBackColor = true;
+            this.buttonProvider_Edit.Click += new System.EventHandler(this.buttonProvider_Edit_Click);
+            // 
             // FormMain
             // 
             this.AcceptButton = this.buttonLogin_Login;
@@ -545,10 +739,14 @@
             this.tabControlMain.ResumeLayout(false);
             this.tabPageLogin.ResumeLayout(false);
             this.tabPageLogin.PerformLayout();
+            this.tabPageProviderManage.ResumeLayout(false);
             this.tabPageWorkerManage.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -596,6 +794,22 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button buttonWorker_Add;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox textBoxProvider_Name;
+        private System.Windows.Forms.Button buttonProvider_OK;
+        private System.Windows.Forms.Button buttonProvider_Cancel;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBoxProvider_Address;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBoxProvider_Phone;
+        private System.Windows.Forms.TextBox textBoxProvider_ID;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button buttonProvider_Add;
+        private System.Windows.Forms.ListBox listBoxProvider;
+        private System.Windows.Forms.Button buttonProvider_Delete;
+        private System.Windows.Forms.Button buttonProvider_Edit;
     }
 }
 

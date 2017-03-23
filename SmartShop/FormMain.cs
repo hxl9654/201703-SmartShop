@@ -160,6 +160,11 @@ namespace SmartShop
             {
                 this.AcceptButton = buttonLogin_Login;
             }
+            else if(tabControlMain.SelectedTab != null && tabControlMain.SelectedTab.Text.Equals("供货商管理"))
+            {
+                listBoxProvider_Refresh();
+                this.AcceptButton = buttonProvider_OK;
+            }
         }
 
         private void listBoxWorkers_Refresh()
@@ -208,13 +213,7 @@ namespace SmartShop
         {
             DAL.User_Delate(((DAL.UserInfo)listBoxWorkers.SelectedItem).Username);
             listBoxWorkers_Refresh();
-            textBoxWorker_ID.Text = "";
-            textBoxWorker_Name.Text = "";
-            textBoxWorker_Phone.Text = "";
-            textBoxWorker_Username.Text = "";
-            textBoxWorker_PasswordRepeat.Text = "";
-            textBoxWorker_Password.Text = "";
-            radioButtonWorker_TypeUser.Checked = true;
+            Worker_SetTextBox(false, false);
         }
 
         private void buttonWorker_Add_Click(object sender, EventArgs e)
@@ -338,6 +337,107 @@ namespace SmartShop
                 buttonWorker_Edit.Enabled = true;
                 buttonWorker_Delete.Enabled = true;
                 listBoxWorkers.SelectedIndex = -1;
+            }
+        }
+
+        private void buttonProvider_Delete_Click(object sender, EventArgs e)
+        {
+            DAL.Provider_Delate(((DAL.ProviderInfo)listBoxProvider.SelectedItem).ProviderID);
+            listBoxProvider_Refresh();
+            Provider_SetTextBox(false);
+        }
+
+        private void listBoxProvider_Refresh()
+        {
+            listBoxProvider.Items.Clear();
+            var AllProviders = DAL.Provider_GetAll();
+            foreach (DAL.ProviderInfo info in AllProviders)
+            {
+                listBoxProvider.Items.Add(info);
+            }
+        }
+
+        private void listBoxProvider_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxProvider.SelectedItem == null)
+                return;
+            textBoxProvider_ID.Text = ((DAL.ProviderInfo)listBoxProvider.SelectedItem).ProviderID.ToString();
+            textBoxProvider_Name.Text = ((DAL.ProviderInfo)listBoxProvider.SelectedItem).Name;
+            textBoxProvider_Phone.Text = ((DAL.ProviderInfo)listBoxProvider.SelectedItem).Phone;
+            textBoxProvider_Address.Text = ((DAL.ProviderInfo)listBoxProvider.SelectedItem).Address;
+        }
+
+        private void buttonProvider_Add_Click(object sender, EventArgs e)
+        {
+            Provider_SetTextBox(false);
+            Provider_SetTextBox(true);
+        }
+
+        private void buttonProvider_Edit_Click(object sender, EventArgs e)
+        {
+            if (listBoxProvider.SelectedItem == null)
+            {
+                MessageBox.Show("请选择要修改的供货商");
+                return;
+            }
+            Provider_SetTextBox(true);
+        }
+
+        private void buttonProvider_OK_Click(object sender, EventArgs e)
+        {
+            if (textBoxProvider_Name.Text == "" || textBoxProvider_Phone.Text == "" || textBoxProvider_Address.Text == "")
+            {
+                MessageBox.Show("所有选项不能为空");
+                return;
+            }
+            if (textBoxProvider_ID.Text.Equals(""))
+            {
+                DAL.ProviderInfo temp = new DAL.ProviderInfo(-1, textBoxProvider_Name.Text, textBoxProvider_Phone.Text, textBoxProvider_Address.Text);
+                DAL.Provider_Add(temp);
+                listBoxProvider_Refresh();
+                Provider_SetTextBox(false);
+            }
+            else
+            {
+                DAL.ProviderInfo temp = new DAL.ProviderInfo(Convert.ToInt32(textBoxProvider_ID.Text), textBoxProvider_Name.Text, textBoxProvider_Phone.Text, textBoxProvider_Address.Text);
+                DAL.Provider_Edit(temp);
+                listBoxProvider_Refresh();
+                Provider_SetTextBox(false);
+            }
+        }
+
+        private void buttonProvider_Cancel_Click(object sender, EventArgs e)
+        {
+            Provider_SetTextBox(false);
+        }
+        private void Provider_SetTextBox(bool enable)
+        {
+            if (enable)
+            {
+                textBoxProvider_Address.Enabled = true;
+                textBoxProvider_Name.Enabled = true;
+                textBoxProvider_Phone.Enabled = true;
+                buttonProvider_OK.Enabled = true;
+                buttonProvider_Cancel.Enabled = true;
+                buttonProvider_Add.Enabled = false;
+                buttonProvider_Edit.Enabled = false;
+                buttonProvider_Delete.Enabled = false;
+            }
+            else
+            {
+                textBoxProvider_Address.Text = "";
+                textBoxProvider_Name.Text = "";
+                textBoxProvider_Phone.Text = "";
+                textBoxProvider_ID.Text = "";
+                textBoxProvider_Address.Enabled = false;
+                textBoxProvider_Name.Enabled = false;
+                textBoxProvider_Phone.Enabled = false;
+                buttonProvider_OK.Enabled = false;
+                buttonProvider_Cancel.Enabled = false;
+                buttonProvider_Add.Enabled = true;
+                buttonProvider_Edit.Enabled = true;
+                buttonProvider_Delete.Enabled = true;
+                listBoxProvider.SelectedIndex = -1;
             }
         }
     }
