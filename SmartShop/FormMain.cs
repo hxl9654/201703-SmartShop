@@ -654,11 +654,30 @@ namespace SmartShop
         {
             this.AcceptButton = buttonPurchase_AddGoodsOK;
             listBoxPurchase_AllGoods.Items.Clear();
-            int GoodsID = DAL.Stock_Get(Convert.ToInt32(textBoxPurchase_AddGoodsFindByRFID.Text));
-            var AllGoods = DAL.Goods_Get(GoodsID, "");
-            foreach (DAL.GoodsInfo info in AllGoods)
+            try
             {
-                listBoxPurchase_AllGoods.Items.Add(info);
+                int GoodsID = DAL.Stock_Get(Convert.ToInt32(textBoxPurchase_AddGoodsFindByRFID.Text));
+                if (GoodsID < 0)
+                {
+                    textBoxPurchase_AddGoodsFindByRFID.Text = "";
+                    textBoxPurchase_AddGoodsFindByRFID.Focus();
+                    return;
+                }
+
+                var AllGoods = DAL.Goods_Get(GoodsID, "");
+                foreach (DAL.GoodsInfo info in AllGoods)
+                {
+                    listBoxPurchase_AllGoods.Items.Add(info);
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("非法编号，请检查扫描器和键盘。");
+            }
+            finally
+            {
+                textBoxPurchase_AddGoodsFindByRFID.Text = "";
+                textBoxPurchase_AddGoodsFindByRFID.Focus();
             }
         }
 

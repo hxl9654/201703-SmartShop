@@ -287,7 +287,7 @@ namespace SmartShop
             if (ID < 0)
                 sql = "SELECT * FROM Goods Where Name LIKE '%{Name}%';".Replace("{Name}", Name);
             else
-                sql = "SELECT * FROM Goods Where ID = '%{ID}%';".Replace("{ID}", ID.ToString());
+                sql = "SELECT * FROM Goods Where ID = '{ID}';".Replace("{ID}", ID.ToString());
             using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
             {
                 c.Open();
