@@ -388,9 +388,24 @@ namespace SmartShop
             return temp;
         }
 
-        internal class PurchaseHistory
+        internal static int Stock_Delete(int rfid)
         {
-            public PurchaseHistory(string timestamp, string text)
+            string sql = "DELETE FROM Stock WHERE RFID = '{RFID}';".Replace("{RFID}", rfid.ToString());
+            int temp;
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    temp = cmd.ExecuteNonQuery();
+                }
+            }
+            return temp;
+        }
+
+        internal class SellAndPurchaseHistory
+        {
+            public SellAndPurchaseHistory(string timestamp, string text)
             {
                 Timestamp = timestamp;
                 Text = text;
@@ -433,13 +448,52 @@ namespace SmartShop
                     {
                         while (reader.Read())
                         {
-                            var temp = new PurchaseHistory(reader.GetString(0), reader.GetString(1));
+                            var temp = new SellAndPurchaseHistory(reader.GetString(0), reader.GetString(1));
                             purchaseHistory.Add(temp);
                         }
                     }
                 }
             }
             return purchaseHistory;
+        }
+
+        internal static int SellHistory_Add(string text)
+        {
+            string sql = "INSERT INTO SellHistory (text) VALUES ('{text}');";
+            sql = sql.Replace("{text}", text);
+            int temp;
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    temp = cmd.ExecuteNonQuery();
+                }
+            }
+            return temp;
+        }
+
+        internal static ArrayList SellHistory_GetAll()
+        {
+            ArrayList SellHistory = new ArrayList();
+            string sql = "SELECT * FROM SellHistory;";
+
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var temp = new SellAndPurchaseHistory(reader.GetString(0), reader.GetString(1));
+                            SellHistory.Add(temp);
+                        }
+                    }
+                }
+            }
+            return SellHistory;
         }
     }
 }

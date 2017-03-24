@@ -17,9 +17,9 @@ namespace SmartShop
             else
                 return (false, -1, "");
         }
-        internal class PurchaseGoods
+        internal class SellAndPurchaseGoods
         {
-            public PurchaseGoods(DAL.GoodsInfo goodsInfo)
+            public SellAndPurchaseGoods(DAL.GoodsInfo goodsInfo)
             {
                 GoodsInfo = goodsInfo;
             }
@@ -31,11 +31,11 @@ namespace SmartShop
             public ArrayList RFIDlist = new ArrayList();
         }
 
-        internal static void Purchase(ArrayList purchaseGoods)
+        internal static void Purchase(ArrayList purchaseGoods, string user)
         {
             string text = "";
             int count1 = 0, count2 = 0;
-            foreach (BLL.PurchaseGoods goods in purchaseGoods)
+            foreach (BLL.SellAndPurchaseGoods goods in purchaseGoods)
             {
                 foreach (int rfid in goods.RFIDlist)
                 {
@@ -45,8 +45,26 @@ namespace SmartShop
                 count2 += goods.RFIDlist.Count;
                 text += "品名：" + goods.GoodsInfo.Name + "，数量：" + goods.RFIDlist.Count + "。" + Environment.NewLine;
             }
-            text = "本次进货品种数：" + count1 + "，总件数：" + count2 + Environment.NewLine + "。详情如下：" + Environment.NewLine + text;
+            text = "本次进货品种数：" + count1 + "，总件数：" + count2 + "。" + Environment.NewLine + "详情如下：" + Environment.NewLine + text + Environment.NewLine + "操作用户：" + user;
             DAL.PurchaseHistory_Add(text);
+        }
+
+        internal static void Sell(ArrayList sellGoods, string user)
+        {
+            string text = "";
+            int count1 = 0, count2 = 0;
+            foreach (BLL.SellAndPurchaseGoods goods in sellGoods)
+            {
+                foreach (int rfid in goods.RFIDlist)
+                {
+                    DAL.Stock_Delete(rfid);
+                }
+                count1++;
+                count2 += goods.RFIDlist.Count;
+                text += "品名：" + goods.GoodsInfo.Name + "，数量：" + goods.RFIDlist.Count + "。" + Environment.NewLine;
+            }
+            text = "本次销售品种数：" + count1 + "，总件数：" + count2 + "。" + Environment.NewLine + "详情如下：" + Environment.NewLine + text + Environment.NewLine + "操作用户：" + user;
+            DAL.SellHistory_Add(text);
         }
     }
 }

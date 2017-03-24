@@ -174,7 +174,16 @@ namespace SmartShop
             }
             else if (tabControlMain.SelectedTab != null && tabControlMain.SelectedTab.Text.Equals("进货历史"))
             {
-                listBoxPurchaseStatistics_Refresh();
+                listBoxPurchaseHistory_Refresh();
+            }
+            else if (tabControlMain.SelectedTab != null && tabControlMain.SelectedTab.Text.Equals("商品销售"))
+            {
+                listBoxSell_List_Refresh();
+                textBoxSell_RFID.Focus();
+            }
+            else if (tabControlMain.SelectedTab != null && tabControlMain.SelectedTab.Text.Equals("销售历史"))
+            {
+                listBoxSellHistory_Refresh();
             }
         }
 
@@ -611,7 +620,7 @@ namespace SmartShop
         private void buttonPurchase_Commit_Click(object sender, EventArgs e)
         {
             ArrayList PurchaseGoods = new ArrayList();
-            foreach (BLL.PurchaseGoods goods in listBoxPurchase_GoodsList.Items)
+            foreach (BLL.SellAndPurchaseGoods goods in listBoxPurchase_GoodsList.Items)
             {
                 if (goods.RFIDlist.Count > 0)
                 {
@@ -620,7 +629,7 @@ namespace SmartShop
             }
             if (PurchaseGoods.Count > 0)
             {
-                BLL.Purchase(PurchaseGoods);
+                BLL.Purchase(PurchaseGoods, textBoxLogin_Username.Text);
             }
             listBoxPurchase_GoodsList.Items.Clear();
             listBoxPurchase_RFIDList.Items.Clear();
@@ -634,7 +643,7 @@ namespace SmartShop
         {
             if (listBoxPurchase_AllGoods.SelectedIndex != -1)
             {
-                listBoxPurchase_GoodsList.Items.Add(new BLL.PurchaseGoods((DAL.GoodsInfo)listBoxPurchase_AllGoods.SelectedItem));
+                listBoxPurchase_GoodsList.Items.Add(new BLL.SellAndPurchaseGoods((DAL.GoodsInfo)listBoxPurchase_AllGoods.SelectedItem));
                 groupBoxPurchase_Add.Visible = false;
                 groupBoxPurchase_Add.Enabled = false;
             }
@@ -708,8 +717,8 @@ namespace SmartShop
             groupBoxPurchase_Detail.Enabled = true;
 
             listBoxPurchase_RFIDList.Items.Clear();
-            labelPurchaseCount.Text = ((BLL.PurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist.Count.ToString();
-            foreach (int rfid in ((BLL.PurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist)
+            labelPurchaseCount.Text = ((BLL.SellAndPurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist.Count.ToString();
+            foreach (int rfid in ((BLL.SellAndPurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist)
             {
                 listBoxPurchase_RFIDList.Items.Add(rfid);
             }
@@ -731,7 +740,7 @@ namespace SmartShop
                         textBoxPurchase_RFID.Text = "";
                         return;
                     }
-                    foreach (BLL.PurchaseGoods goods in listBoxPurchase_GoodsList.Items)
+                    foreach (BLL.SellAndPurchaseGoods goods in listBoxPurchase_GoodsList.Items)
                     {
                         foreach (int rfid in goods.RFIDlist)
                         {
@@ -744,11 +753,11 @@ namespace SmartShop
                             }
                         }
                     }
-                    ((BLL.PurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist.Add(RFID);
-                    labelPurchaseCount.Text = ((BLL.PurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist.Count.ToString();
+                    ((BLL.SellAndPurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist.Add(RFID);
+                    labelPurchaseCount.Text = ((BLL.SellAndPurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist.Count.ToString();
                     listBoxPurchase_RFIDList.Items.Add(RFID);
                     textBoxPurchase_RFID.Text = "";
-                    var temp = (BLL.PurchaseGoods)listBoxPurchase_GoodsList.SelectedItem;
+                    var temp = (BLL.SellAndPurchaseGoods)listBoxPurchase_GoodsList.SelectedItem;
                     listBoxPurchase_GoodsList.Items.RemoveAt(listBoxPurchase_GoodsList.SelectedIndex);
                     listBoxPurchase_GoodsList.Items.Insert(0, temp);
                     listBoxPurchase_GoodsList.SelectedIndex = 0;
@@ -765,32 +774,183 @@ namespace SmartShop
         {
             if (listBoxPurchase_RFIDList.SelectedIndex != -1)
             {
-                ((BLL.PurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist.Remove((int)listBoxPurchase_RFIDList.SelectedItem);
-                labelPurchaseCount.Text = ((BLL.PurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist.Count.ToString();
+                ((BLL.SellAndPurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist.Remove((int)listBoxPurchase_RFIDList.SelectedItem);
+                labelPurchaseCount.Text = ((BLL.SellAndPurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist.Count.ToString();
                 listBoxPurchase_RFIDList.Items.RemoveAt(listBoxPurchase_RFIDList.SelectedIndex);
             }
-            var temp = (BLL.PurchaseGoods)listBoxPurchase_GoodsList.SelectedItem;
+            var temp = (BLL.SellAndPurchaseGoods)listBoxPurchase_GoodsList.SelectedItem;
             listBoxPurchase_GoodsList.Items.RemoveAt(listBoxPurchase_GoodsList.SelectedIndex);
             listBoxPurchase_GoodsList.Items.Insert(0, temp);
             listBoxPurchase_GoodsList.SelectedIndex = 0;
             textBoxPurchase_RFID.Focus();
         }
 
-        private void listBoxPurchaseStatistics_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBoxPurchaseHistory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBoxPurchaseStatistics.SelectedIndex != -1)
+            if (listBoxPurchaseHistory.SelectedIndex != -1)
             {
-                textBoxPurchaseStatistics.Text = "进货时间：" + ((DAL.PurchaseHistory)listBoxPurchaseStatistics.SelectedItem).Timestamp + Environment.NewLine + ((DAL.PurchaseHistory)listBoxPurchaseStatistics.SelectedItem).Text;
+                textBoxPurchaseHistory.Text = "进货时间：" + ((DAL.SellAndPurchaseHistory)listBoxPurchaseHistory.SelectedItem).Timestamp + Environment.NewLine + ((DAL.SellAndPurchaseHistory)listBoxPurchaseHistory.SelectedItem).Text;
             }
         }
 
-        private void listBoxPurchaseStatistics_Refresh()
+        private void listBoxPurchaseHistory_Refresh()
         {
-            listBoxPurchaseStatistics.Items.Clear();
+            listBoxPurchaseHistory.Items.Clear();
             var AllHistory = DAL.PurchaseHistory_GetAll();
-            foreach (DAL.PurchaseHistory history in AllHistory)
+            foreach (DAL.SellAndPurchaseHistory history in AllHistory)
             {
-                listBoxPurchaseStatistics.Items.Add(history);
+                listBoxPurchaseHistory.Items.Add(history);
+            }
+        }
+
+        private void listBoxSell_List_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxSell_List.SelectedIndex == -1)
+                return;
+
+            listBoxSell_RFIDList.Items.Clear();
+            labelSell_Count.Text = ((BLL.SellAndPurchaseGoods)listBoxSell_List.SelectedItem).RFIDlist.Count.ToString();
+            foreach (int rfid in ((BLL.SellAndPurchaseGoods)listBoxSell_List.SelectedItem).RFIDlist)
+            {
+                listBoxSell_RFIDList.Items.Add(rfid);
+            }
+            textBoxSell_RFID.Text = "";
+            textBoxSell_RFID.Focus();
+        }
+
+        private void buttonSell_Delete_Click(object sender, EventArgs e)
+        {
+            if (listBoxSell_List.SelectedIndex != -1)
+            {
+                listBoxSell_List.Items.RemoveAt(listBoxSell_List.SelectedIndex);
+                listBoxSell_RFIDList.Items.Clear();
+                labelSell_Count.Text = "";
+            }
+        }
+
+        private void buttonSell_Commit_Click(object sender, EventArgs e)
+        {
+            ArrayList SellGoods = new ArrayList();
+            foreach (BLL.SellAndPurchaseGoods goods in listBoxSell_List.Items)
+            {
+                if (goods.RFIDlist.Count > 0)
+                {
+                    SellGoods.Add(goods);
+                }
+            }
+            if (SellGoods.Count > 0)
+            {
+                BLL.Sell(SellGoods, textBoxLogin_Username.Text);
+            }
+            listBoxSell_List.Items.Clear();
+            listBoxSell_RFIDList.Items.Clear();
+            labelSell_Count.Text = "";
+            textBoxSell_RFID.Text = "";
+        }
+
+        private void listBoxSell_RFIDList_DoubleClick(object sender, EventArgs e)
+        {
+            if (listBoxSell_RFIDList.SelectedIndex != -1)
+            {
+                ((BLL.SellAndPurchaseGoods)listBoxSell_List.SelectedItem).RFIDlist.Remove((int)listBoxSell_RFIDList.SelectedItem);
+                labelSell_Count.Text = ((BLL.SellAndPurchaseGoods)listBoxSell_List.SelectedItem).RFIDlist.Count.ToString();
+                listBoxSell_RFIDList.Items.RemoveAt(listBoxSell_RFIDList.SelectedIndex);
+            }
+            var temp = (BLL.SellAndPurchaseGoods)listBoxSell_List.SelectedItem;
+            listBoxSell_List.Items.RemoveAt(listBoxSell_List.SelectedIndex);
+            listBoxSell_List.Items.Insert(0, temp);
+            listBoxSell_List.SelectedIndex = 0;
+            textBoxSell_RFID.Focus();
+        }
+
+        private void textBoxSell_RFID_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxSell_RFID.Text.Length == 10)
+            {
+                try
+                {
+                    int RFID = Convert.ToInt32(textBoxSell_RFID.Text);
+                    int GoodsID = DAL.Stock_Get(RFID);
+                    if (GoodsID == -1)
+                    {
+                        MessageBox.Show("此标签不存在。");
+                        MessageBox.Show("此标签不存在。");
+                        textBoxSell_RFID.Text = "";
+                        return;
+                    }
+                    foreach (BLL.SellAndPurchaseGoods goods in listBoxSell_List.Items)
+                    {
+                        foreach (int rfid in goods.RFIDlist)
+                        {
+                            if (rfid == RFID)
+                            {
+                                MessageBox.Show("此标签已扫描。");
+                                MessageBox.Show("此标签已扫描。");
+                                textBoxSell_RFID.Text = "";
+                                return;
+                            }
+                        }
+                    }
+                    bool find = false;
+                    int index = 0;
+                    foreach (BLL.SellAndPurchaseGoods goods in listBoxSell_List.Items)
+                    {
+                        if (goods.GoodsInfo.GoodsID == GoodsID)
+                        {
+                            goods.RFIDlist.Add(RFID);
+                            labelSell_Count.Text = goods.RFIDlist.Count.ToString();
+                            find = true;
+                            break;
+                        }
+                        index++;
+                    }
+                    if (!find)
+                    {
+                        var goods = new BLL.SellAndPurchaseGoods((DAL.GoodsInfo)DAL.Goods_Get(GoodsID, "")[0]);
+                        goods.RFIDlist.Add(RFID);
+                        labelSell_Count.Text = goods.RFIDlist.Count.ToString();
+                        listBoxSell_List.Items.Add(goods);
+                    }
+
+                    listBoxSell_RFIDList.Items.Add(RFID);
+                    textBoxSell_RFID.Text = "";
+
+                    var temp = (BLL.SellAndPurchaseGoods)listBoxSell_List.Items[index];
+                    listBoxSell_List.Items.RemoveAt(index);
+                    listBoxSell_List.Items.Insert(0, temp);
+                    listBoxSell_List.SelectedIndex = 0;
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("非法编号，请检查扫描器和键盘。");
+                    textBoxSell_RFID.Text = "";
+                }
+            }
+        }
+
+        private void listBoxSell_List_Refresh()
+        {
+            textBoxSell_RFID.Text = "";
+            labelSell_Count.Text = "";
+            listBoxSell_List.Items.Clear();
+            listBoxSell_RFIDList.Items.Clear();
+        }
+
+        private void listBoxSellHistory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxSellHistory.SelectedIndex != -1)
+            {
+                textBoxSellHistory.Text = "销售时间：" + ((DAL.SellAndPurchaseHistory)listBoxSellHistory.SelectedItem).Timestamp + Environment.NewLine + ((DAL.SellAndPurchaseHistory)listBoxSellHistory.SelectedItem).Text;
+            }
+        }
+
+        private void listBoxSellHistory_Refresh()
+        {
+            listBoxSellHistory.Items.Clear();
+            var AllHistory = DAL.SellHistory_GetAll();
+            foreach (DAL.SellAndPurchaseHistory history in AllHistory)
+            {
+                listBoxSellHistory.Items.Add(history);
             }
         }
     }
