@@ -142,6 +142,12 @@
             this.textBoxSellHistory = new System.Windows.Forms.TextBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.listBoxSellHistory = new System.Windows.Forms.ListBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.textBoxInventoryRFID = new System.Windows.Forms.TextBox();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.listBoxInventory = new System.Windows.Forms.ListBox();
+            this.buttonInventoryReset = new System.Windows.Forms.Button();
+            this.buttonInventorySubmit = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPageLogin.SuspendLayout();
             this.tabPageProviderManage.SuspendLayout();
@@ -160,12 +166,14 @@
             this.tabPageSell.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            this.tabPageInventory.SuspendLayout();
             this.tabPagePurchaseStatistics.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.tabPageSellHistory.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.groupBox13.SuspendLayout();
+            this.groupBox15.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -963,9 +971,9 @@
             this.groupBoxPurchase_Add.Controls.Add(this.listBoxPurchase_AllGoods);
             this.groupBoxPurchase_Add.Controls.Add(this.buttonPurchase_AddGoodsFindByName);
             this.groupBoxPurchase_Add.Enabled = false;
-            this.groupBoxPurchase_Add.Location = new System.Drawing.Point(374, 6);
+            this.groupBoxPurchase_Add.Location = new System.Drawing.Point(393, 20);
             this.groupBoxPurchase_Add.Name = "groupBoxPurchase_Add";
-            this.groupBoxPurchase_Add.Size = new System.Drawing.Size(207, 249);
+            this.groupBoxPurchase_Add.Size = new System.Drawing.Size(178, 249);
             this.groupBoxPurchase_Add.TabIndex = 27;
             this.groupBoxPurchase_Add.TabStop = false;
             this.groupBoxPurchase_Add.Text = "添加进货商品";
@@ -973,7 +981,7 @@
             // 
             // buttonPurchase_AddGoodsReset
             // 
-            this.buttonPurchase_AddGoodsReset.Location = new System.Drawing.Point(159, 20);
+            this.buttonPurchase_AddGoodsReset.Location = new System.Drawing.Point(130, 20);
             this.buttonPurchase_AddGoodsReset.Name = "buttonPurchase_AddGoodsReset";
             this.buttonPurchase_AddGoodsReset.Size = new System.Drawing.Size(42, 77);
             this.buttonPurchase_AddGoodsReset.TabIndex = 8;
@@ -983,9 +991,9 @@
             // 
             // buttonPurchase_AddGoodsFindByRFID
             // 
-            this.buttonPurchase_AddGoodsFindByRFID.Location = new System.Drawing.Point(115, 213);
+            this.buttonPurchase_AddGoodsFindByRFID.Location = new System.Drawing.Point(96, 213);
             this.buttonPurchase_AddGoodsFindByRFID.Name = "buttonPurchase_AddGoodsFindByRFID";
-            this.buttonPurchase_AddGoodsFindByRFID.Size = new System.Drawing.Size(86, 21);
+            this.buttonPurchase_AddGoodsFindByRFID.Size = new System.Drawing.Size(76, 21);
             this.buttonPurchase_AddGoodsFindByRFID.TabIndex = 7;
             this.buttonPurchase_AddGoodsFindByRFID.Text = "按RFID查找";
             this.buttonPurchase_AddGoodsFindByRFID.UseVisualStyleBackColor = true;
@@ -996,7 +1004,7 @@
             this.textBoxPurchase_AddGoodsFindByRFID.Location = new System.Drawing.Point(6, 213);
             this.textBoxPurchase_AddGoodsFindByRFID.MaxLength = 10;
             this.textBoxPurchase_AddGoodsFindByRFID.Name = "textBoxPurchase_AddGoodsFindByRFID";
-            this.textBoxPurchase_AddGoodsFindByRFID.Size = new System.Drawing.Size(103, 21);
+            this.textBoxPurchase_AddGoodsFindByRFID.Size = new System.Drawing.Size(84, 21);
             this.textBoxPurchase_AddGoodsFindByRFID.TabIndex = 6;
             this.textBoxPurchase_AddGoodsFindByRFID.Click += new System.EventHandler(this.textBoxPurchase_AddGoodsFindByRFID_Click);
             // 
@@ -1005,12 +1013,12 @@
             this.textBoxPurchase_AddGoodsFindByName.Location = new System.Drawing.Point(6, 186);
             this.textBoxPurchase_AddGoodsFindByName.MaxLength = 64;
             this.textBoxPurchase_AddGoodsFindByName.Name = "textBoxPurchase_AddGoodsFindByName";
-            this.textBoxPurchase_AddGoodsFindByName.Size = new System.Drawing.Size(103, 21);
+            this.textBoxPurchase_AddGoodsFindByName.Size = new System.Drawing.Size(84, 21);
             this.textBoxPurchase_AddGoodsFindByName.TabIndex = 5;
             // 
             // buttonPurchase_AddGoodsOK
             // 
-            this.buttonPurchase_AddGoodsOK.Location = new System.Drawing.Point(159, 103);
+            this.buttonPurchase_AddGoodsOK.Location = new System.Drawing.Point(130, 103);
             this.buttonPurchase_AddGoodsOK.Name = "buttonPurchase_AddGoodsOK";
             this.buttonPurchase_AddGoodsOK.Size = new System.Drawing.Size(42, 77);
             this.buttonPurchase_AddGoodsOK.TabIndex = 4;
@@ -1024,14 +1032,14 @@
             this.listBoxPurchase_AllGoods.ItemHeight = 12;
             this.listBoxPurchase_AllGoods.Location = new System.Drawing.Point(6, 20);
             this.listBoxPurchase_AllGoods.Name = "listBoxPurchase_AllGoods";
-            this.listBoxPurchase_AllGoods.Size = new System.Drawing.Size(147, 160);
+            this.listBoxPurchase_AllGoods.Size = new System.Drawing.Size(118, 160);
             this.listBoxPurchase_AllGoods.TabIndex = 0;
             // 
             // buttonPurchase_AddGoodsFindByName
             // 
-            this.buttonPurchase_AddGoodsFindByName.Location = new System.Drawing.Point(115, 186);
+            this.buttonPurchase_AddGoodsFindByName.Location = new System.Drawing.Point(96, 186);
             this.buttonPurchase_AddGoodsFindByName.Name = "buttonPurchase_AddGoodsFindByName";
-            this.buttonPurchase_AddGoodsFindByName.Size = new System.Drawing.Size(86, 21);
+            this.buttonPurchase_AddGoodsFindByName.Size = new System.Drawing.Size(76, 21);
             this.buttonPurchase_AddGoodsFindByName.TabIndex = 3;
             this.buttonPurchase_AddGoodsFindByName.Text = "按名称查找";
             this.buttonPurchase_AddGoodsFindByName.UseVisualStyleBackColor = true;
@@ -1287,6 +1295,7 @@
             // tabPageInventory
             // 
             this.tabPageInventory.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageInventory.Controls.Add(this.groupBox15);
             this.tabPageInventory.Location = new System.Drawing.Point(4, 22);
             this.tabPageInventory.Name = "tabPageInventory";
             this.tabPageInventory.Padding = new System.Windows.Forms.Padding(3);
@@ -1396,6 +1405,67 @@
             this.listBoxSellHistory.TabIndex = 0;
             this.listBoxSellHistory.SelectedIndexChanged += new System.EventHandler(this.listBoxSellHistory_SelectedIndexChanged);
             // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(9, 225);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(89, 12);
+            this.label29.TabIndex = 4;
+            this.label29.Text = "请扫描RFID标签";
+            // 
+            // textBoxInventoryRFID
+            // 
+            this.textBoxInventoryRFID.Location = new System.Drawing.Point(104, 222);
+            this.textBoxInventoryRFID.MaxLength = 10;
+            this.textBoxInventoryRFID.Name = "textBoxInventoryRFID";
+            this.textBoxInventoryRFID.Size = new System.Drawing.Size(73, 21);
+            this.textBoxInventoryRFID.TabIndex = 3;
+            this.textBoxInventoryRFID.TextChanged += new System.EventHandler(this.textBoxInventoryRFID_TextChanged);
+            // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.listBoxInventory);
+            this.groupBox15.Controls.Add(this.buttonInventoryReset);
+            this.groupBox15.Controls.Add(this.textBoxInventoryRFID);
+            this.groupBox15.Controls.Add(this.buttonInventorySubmit);
+            this.groupBox15.Controls.Add(this.label29);
+            this.groupBox15.Location = new System.Drawing.Point(98, 77);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(391, 249);
+            this.groupBox15.TabIndex = 29;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "库存盘点";
+            // 
+            // listBoxInventory
+            // 
+            this.listBoxInventory.FormattingEnabled = true;
+            this.listBoxInventory.ItemHeight = 12;
+            this.listBoxInventory.Location = new System.Drawing.Point(6, 20);
+            this.listBoxInventory.Name = "listBoxInventory";
+            this.listBoxInventory.Size = new System.Drawing.Size(379, 196);
+            this.listBoxInventory.TabIndex = 0;
+            // 
+            // buttonInventoryReset
+            // 
+            this.buttonInventoryReset.Location = new System.Drawing.Point(183, 222);
+            this.buttonInventoryReset.Name = "buttonInventoryReset";
+            this.buttonInventoryReset.Size = new System.Drawing.Size(94, 21);
+            this.buttonInventoryReset.TabIndex = 2;
+            this.buttonInventoryReset.Text = "重置";
+            this.buttonInventoryReset.UseVisualStyleBackColor = true;
+            this.buttonInventoryReset.Click += new System.EventHandler(this.buttonInventoryReset_Click);
+            // 
+            // buttonInventorySubmit
+            // 
+            this.buttonInventorySubmit.Location = new System.Drawing.Point(283, 222);
+            this.buttonInventorySubmit.Name = "buttonInventorySubmit";
+            this.buttonInventorySubmit.Size = new System.Drawing.Size(102, 21);
+            this.buttonInventorySubmit.TabIndex = 3;
+            this.buttonInventorySubmit.Text = "提交";
+            this.buttonInventorySubmit.UseVisualStyleBackColor = true;
+            this.buttonInventorySubmit.Click += new System.EventHandler(this.buttonInventorySubmit_Click);
+            // 
             // FormMain
             // 
             this.AcceptButton = this.buttonLogin_Login;
@@ -1435,6 +1505,7 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox11.ResumeLayout(false);
+            this.tabPageInventory.ResumeLayout(false);
             this.tabPagePurchaseStatistics.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
@@ -1443,6 +1514,8 @@
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
             this.groupBox13.ResumeLayout(false);
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1563,6 +1636,12 @@
         private System.Windows.Forms.TextBox textBoxSellHistory;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.ListBox listBoxSellHistory;
+        private System.Windows.Forms.GroupBox groupBox15;
+        private System.Windows.Forms.ListBox listBoxInventory;
+        private System.Windows.Forms.Button buttonInventoryReset;
+        private System.Windows.Forms.TextBox textBoxInventoryRFID;
+        private System.Windows.Forms.Button buttonInventorySubmit;
+        private System.Windows.Forms.Label label29;
     }
 }
 

@@ -185,6 +185,10 @@ namespace SmartShop
             {
                 listBoxSellHistory_Refresh();
             }
+            else if (tabControlMain.SelectedTab != null && tabControlMain.SelectedTab.Text.Equals("库存盘点"))
+            {
+                listBoxInventory_Refresh();
+            }
         }
 
         private void listBoxWorkers_Refresh()
@@ -637,15 +641,22 @@ namespace SmartShop
             textBoxPurchase_RFID.Text = "";
             groupBoxPurchase_Detail.Visible = false;
             groupBoxPurchase_Detail.Enabled = false;
+            MessageBox.Show("操作成功");
         }
 
         private void buttonPurchase_AddGoodsOK_Click(object sender, EventArgs e)
         {
             if (listBoxPurchase_AllGoods.SelectedIndex != -1)
             {
+                foreach (BLL.SellAndPurchaseGoods goods in listBoxPurchase_GoodsList.Items)
+                {
+                    if (goods.GoodsInfo.GoodsID == ((DAL.GoodsInfo)listBoxPurchase_AllGoods.SelectedItem).GoodsID)
+                    {
+                        MessageBox.Show("此商品已添加至采购单");
+                        return;
+                    }
+                }
                 listBoxPurchase_GoodsList.Items.Add(new BLL.SellAndPurchaseGoods((DAL.GoodsInfo)listBoxPurchase_AllGoods.SelectedItem));
-                groupBoxPurchase_Add.Visible = false;
-                groupBoxPurchase_Add.Enabled = false;
             }
         }
 
@@ -665,7 +676,7 @@ namespace SmartShop
             listBoxPurchase_AllGoods.Items.Clear();
             try
             {
-                int GoodsID = DAL.Stock_Get(Convert.ToInt32(textBoxPurchase_AddGoodsFindByRFID.Text));
+                int GoodsID = DAL.Stock_Get(Convert.ToInt64(textBoxPurchase_AddGoodsFindByRFID.Text));
                 if (GoodsID < 0)
                 {
                     textBoxPurchase_AddGoodsFindByRFID.Text = "";
@@ -718,7 +729,7 @@ namespace SmartShop
 
             listBoxPurchase_RFIDList.Items.Clear();
             labelPurchaseCount.Text = ((BLL.SellAndPurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist.Count.ToString();
-            foreach (int rfid in ((BLL.SellAndPurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist)
+            foreach (long rfid in ((BLL.SellAndPurchaseGoods)listBoxPurchase_GoodsList.SelectedItem).RFIDlist)
             {
                 listBoxPurchase_RFIDList.Items.Add(rfid);
             }
@@ -732,7 +743,7 @@ namespace SmartShop
             {
                 try
                 {
-                    int RFID = Convert.ToInt32(textBoxPurchase_RFID.Text);
+                    long RFID = Convert.ToInt64(textBoxPurchase_RFID.Text);
                     if (DAL.Stock_Get(RFID) != -1)
                     {
                         MessageBox.Show("此标签已存在。");
@@ -742,7 +753,7 @@ namespace SmartShop
                     }
                     foreach (BLL.SellAndPurchaseGoods goods in listBoxPurchase_GoodsList.Items)
                     {
-                        foreach (int rfid in goods.RFIDlist)
+                        foreach (long rfid in goods.RFIDlist)
                         {
                             if (rfid == RFID)
                             {
@@ -810,7 +821,7 @@ namespace SmartShop
 
             listBoxSell_RFIDList.Items.Clear();
             labelSell_Count.Text = ((BLL.SellAndPurchaseGoods)listBoxSell_List.SelectedItem).RFIDlist.Count.ToString();
-            foreach (int rfid in ((BLL.SellAndPurchaseGoods)listBoxSell_List.SelectedItem).RFIDlist)
+            foreach (long rfid in ((BLL.SellAndPurchaseGoods)listBoxSell_List.SelectedItem).RFIDlist)
             {
                 listBoxSell_RFIDList.Items.Add(rfid);
             }
@@ -846,6 +857,7 @@ namespace SmartShop
             listBoxSell_RFIDList.Items.Clear();
             labelSell_Count.Text = "";
             textBoxSell_RFID.Text = "";
+            MessageBox.Show("操作成功");
         }
 
         private void listBoxSell_RFIDList_DoubleClick(object sender, EventArgs e)
@@ -869,7 +881,7 @@ namespace SmartShop
             {
                 try
                 {
-                    int RFID = Convert.ToInt32(textBoxSell_RFID.Text);
+                    long RFID = Convert.ToInt64(textBoxSell_RFID.Text);
                     int GoodsID = DAL.Stock_Get(RFID);
                     if (GoodsID == -1)
                     {
@@ -880,7 +892,7 @@ namespace SmartShop
                     }
                     foreach (BLL.SellAndPurchaseGoods goods in listBoxSell_List.Items)
                     {
-                        foreach (int rfid in goods.RFIDlist)
+                        foreach (long rfid in goods.RFIDlist)
                         {
                             if (rfid == RFID)
                             {
@@ -952,6 +964,90 @@ namespace SmartShop
             {
                 listBoxSellHistory.Items.Add(history);
             }
+        }
+
+        private void textBoxInventoryRFID_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxInventoryRFID.Text.Length == 10)
+            {
+                try
+                {
+                    bool find = false;
+                    int index = 0;
+                    long RFID = Convert.ToInt64(textBoxInventoryRFID.Text);
+                    foreach (BLL.InventoryGoods goods in listBoxInventory.Items)
+                    {
+                        foreach (long rfid in goods.Inventorylist)
+                        {
+                            if (rfid == RFID)
+                            {
+                                MessageBox.Show("此标签已扫描。");
+                                MessageBox.Show("此标签已扫描。");
+                                textBoxInventoryRFID.Text = "";
+                                return;
+                            }
+                        }
+                        foreach (long rfid in goods.RFIDList)
+                        {
+                            if (rfid == RFID)
+                            {
+                                goods.Inventorylist.Add(RFID);
+                                find = true;
+                                break;
+                            }
+                        }
+                        if (!find)
+                            index++;
+                    }
+
+                    if (!find)
+                        throw new IndexOutOfRangeException();
+
+                    textBoxInventoryRFID.Text = "";
+
+                    var temp = (BLL.InventoryGoods)listBoxInventory.Items[index];
+                    listBoxInventory.Items.RemoveAt(index);
+                    listBoxInventory.Items.Insert(0, temp);
+                    listBoxInventory.SelectedIndex = 0;
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("非法编号，请检查扫描器和键盘。");
+                    textBoxInventoryRFID.Text = "";
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    MessageBox.Show("数据库中没有此标签，请在本次盘点结束后进行进货操作。");
+                    textBoxInventoryRFID.Text = "";
+                }
+            }
+        }
+
+        private void buttonInventoryReset_Click(object sender, EventArgs e)
+        {
+            listBoxInventory_Refresh();
+        }
+
+        private void buttonInventorySubmit_Click(object sender, EventArgs e)
+        {
+            var temp = MessageBox.Show(BLL.Inventory_Result(listBoxInventory.Items), "盘点结果确认", MessageBoxButtons.YesNo);
+            if (temp == DialogResult.Yes)
+            {
+                BLL.Inventory_Submit(listBoxInventory.Items);
+                listBoxInventory_Refresh();
+                MessageBox.Show("提交成功");
+            }
+        }
+
+        private void listBoxInventory_Refresh()
+        {
+            listBoxInventory.Items.Clear();
+            var temp = BLL.Inventory_Prepare();
+            foreach (BLL.InventoryGoods goods in temp)
+            {
+                listBoxInventory.Items.Add(goods);
+            }
+            textBoxInventoryRFID.Text = "";
         }
     }
 }

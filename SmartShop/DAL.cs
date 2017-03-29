@@ -27,7 +27,7 @@ namespace SmartShop
             {
             }
 
-            override public string ToString()
+            public override string ToString()
             {
                 return (IsAdmin ? "管理员：" : "用户：") + UserID + " " + Name + " " + Username;
             }
@@ -153,7 +153,7 @@ namespace SmartShop
             {
             }
 
-            override public string ToString()
+            public override string ToString()
             {
                 return ProviderID + " " + Name;
             }
@@ -247,7 +247,7 @@ namespace SmartShop
             {
             }
 
-            override public string ToString()
+            public override string ToString()
             {
                 return GoodsID + " " + Name;
             }
@@ -353,7 +353,7 @@ namespace SmartShop
             return temp;
         }
 
-        internal static int Stock_Get(int RFID)
+        internal static int Stock_Get(long RFID)
         {
             string sql = "SELECT * FROM Stock WHERE RFID = '{RFID}';".Replace("{RFID}", RFID.ToString());
 
@@ -372,7 +372,31 @@ namespace SmartShop
             }
         }
 
-        internal static int Stock_Add(int RFID, int goodsID)
+        internal static Dictionary<int, ArrayList> Stock_GetAll()
+        {
+            Dictionary<int, ArrayList> AllStock = new Dictionary<int, ArrayList>();
+            string sql = "SELECT * FROM Stock;";
+
+            using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+                {
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (!AllStock.ContainsKey(reader.GetInt32(1)))
+                                AllStock.Add(reader.GetInt32(1), new ArrayList());
+                            AllStock[reader.GetInt32(1)].Add(reader.GetInt64(0));
+                        }
+                    }
+                }
+            }
+            return AllStock;
+        }
+
+        internal static int Stock_Add(long RFID, int goodsID)
         {
             string sql = "INSERT INTO Stock (RFID,goodsID) VALUES ('{RFID}','{goodsID}');";
             sql = sql.Replace("{RFID}", RFID.ToString()).Replace("{goodsID}", goodsID.ToString());
@@ -388,7 +412,7 @@ namespace SmartShop
             return temp;
         }
 
-        internal static int Stock_Delete(int rfid)
+        internal static int Stock_Delete(long rfid)
         {
             string sql = "DELETE FROM Stock WHERE RFID = '{RFID}';".Replace("{RFID}", rfid.ToString());
             int temp;
@@ -410,7 +434,7 @@ namespace SmartShop
                 Timestamp = timestamp;
                 Text = text;
             }
-            override public string ToString()
+            public override string ToString()
             {
                 return Timestamp;
             }
