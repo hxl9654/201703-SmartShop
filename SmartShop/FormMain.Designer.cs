@@ -279,7 +279,7 @@
             this.textBoxLogin_password.PasswordChar = '*';
             this.textBoxLogin_password.Size = new System.Drawing.Size(117, 21);
             this.textBoxLogin_password.TabIndex = 1;
-            this.textBoxLogin_password.Text = "123456";
+            this.textBoxLogin_password.Text = "root";
             this.textBoxLogin_password.UseSystemPasswordChar = true;
             // 
             // textBoxLogin_Username

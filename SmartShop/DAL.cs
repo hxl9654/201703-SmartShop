@@ -280,11 +280,13 @@ namespace SmartShop
             return AllGoods;
         }
 
-        internal static ArrayList Goods_Get(int ID, string Name)
+        internal static ArrayList Goods_Get(int ID, string Name, int ProviderID = -1)
         {
             ArrayList AllGoods = new ArrayList();
             string sql;
-            if (ID < 0)
+            if (ProviderID != -1)
+                sql = "SELECT * FROM Goods Where ProviderID = '{ProviderID}';".Replace("{ProviderID}", ProviderID.ToString());
+            else if (ID < 0)
                 sql = "SELECT * FROM Goods Where Name LIKE '%{Name}%';".Replace("{Name}", Name);
             else
                 sql = "SELECT * FROM Goods Where ID = '{ID}';".Replace("{ID}", ID.ToString());
@@ -412,9 +414,13 @@ namespace SmartShop
             return temp;
         }
 
-        internal static int Stock_Delete(long rfid)
+        internal static int Stock_Delete(long rfid, int goodsID = -1)
         {
-            string sql = "DELETE FROM Stock WHERE RFID = '{RFID}';".Replace("{RFID}", rfid.ToString());
+            string sql;
+            if (goodsID != -1)
+                sql = "DELETE FROM Stock WHERE GoodsID = '{GoodsID}';".Replace("{GoodsID}", goodsID.ToString());
+            else
+                sql = "DELETE FROM Stock WHERE RFID = '{RFID}';".Replace("{RFID}", rfid.ToString());
             int temp;
             using (SQLiteConnection c = new SQLiteConnection(ConnectionString))
             {

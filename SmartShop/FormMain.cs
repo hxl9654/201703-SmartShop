@@ -235,6 +235,11 @@ namespace SmartShop
 
         private void buttonWorker_Delete_Click(object sender, EventArgs e)
         {
+            if(((DAL.UserInfo)listBoxWorkers.SelectedItem).Username.Equals(textBoxLogin_Username.Text))
+            {
+                MessageBox.Show("不能删除当前登录的用户。");
+                return;
+            }
             DAL.User_Delate(((DAL.UserInfo)listBoxWorkers.SelectedItem).Username);
             listBoxWorkers_Refresh();
             Worker_SetTextBox(false, false);
@@ -367,6 +372,34 @@ namespace SmartShop
 
         private void buttonProvider_Delete_Click(object sender, EventArgs e)
         {
+            var temp = DAL.Goods_Get(-1, "", ((DAL.ProviderInfo)listBoxProvider.SelectedItem).ProviderID);
+            if (temp.Count != 0)
+            {
+                string message = "当前供应商名下仍有商品，继续操作将删除该供应商名下所有商品：" + Environment.NewLine;
+                int i = 0;
+                foreach (DAL.GoodsInfo goods in temp)
+                {
+                    message += goods.Name;
+                    i++;
+                    if (i >= 5)
+                    {
+                        i -= 5;
+                        message += Environment.NewLine;
+                    }
+                    else message += "、";
+                }
+                message = message.TrimEnd("、".ToCharArray());
+                message = message.TrimEnd(Environment.NewLine.ToCharArray());
+                message += Environment.NewLine + "你确定继续删除操作吗？";
+                var t = MessageBox.Show(message, "删除确认", MessageBoxButtons.YesNo);
+                if (t == DialogResult.No)
+                    return;
+                foreach (DAL.GoodsInfo goods in temp)
+                {
+                    DAL.Stock_Delete(-1, goods.GoodsID);
+                    DAL.Goods_Delate(goods.GoodsID);
+                }
+            }
             DAL.Provider_Delate(((DAL.ProviderInfo)listBoxProvider.SelectedItem).ProviderID);
             listBoxProvider_Refresh();
             Provider_SetTextBox(false);
@@ -489,6 +522,15 @@ namespace SmartShop
 
         private void buttonGoods_Delete_Click(object sender, EventArgs e)
         {
+            var temp = DAL.Stock_GetAll();
+            if (temp.ContainsKey(((DAL.GoodsInfo)listBoxGoods.SelectedItem).GoodsID))
+            {
+                string message = "该商品仍有库存，继续操作将删除该商品所有库存，是否继续？";
+                var t = MessageBox.Show(message, "删除确认", MessageBoxButtons.YesNo);
+                if (t == DialogResult.No)
+                    return;
+                DAL.Stock_Delete(-1, ((DAL.GoodsInfo)listBoxGoods.SelectedItem).GoodsID);
+            }
             DAL.Goods_Delate(((DAL.GoodsInfo)listBoxGoods.SelectedItem).GoodsID);
             listBoxGoods_Refresh();
             Goods_SetTextBox(false);
